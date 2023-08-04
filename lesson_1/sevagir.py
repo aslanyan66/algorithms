@@ -2,7 +2,6 @@ from random import randint
 def search(arr, target):
     low = 0
     high = len(arr) - 1
-    count = 0
     while low <= high:
         mid = (low + high) // 2
         current = arr[mid]
