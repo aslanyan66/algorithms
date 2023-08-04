@@ -21,5 +21,3 @@ def search(arr, target):
 numbers = sorted([randint(0, 50000000) for _ in range(256)])
 
 search(numbers, numbers[0])
-
-print(numbers.index(10))
