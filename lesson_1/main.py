@@ -21,48 +21,51 @@ def get_numbers_list(length=100):
 def get_user_answer(title, answer_type='str'):
     data = {
         'str': lambda: input(title).lower(),
-        'num': lambda: input(title)
+        'num': lambda: int(input(title))
     }
     return data[answer_type]()
 
 
 def is_user_agree(answer):
-    get_joke(answer)
-    return answer == 'yes' or answer == 'ye' or answer == 'y' or answer == 'ha' or answer == 'ayo' or answer == 'da'
-
-
-def get_joke(answer):
-    data = {
-        'yes': 'cerin tqes',
-        'da': 'lambda',
-        'ayo': 'vazmi mayo',
-        'ha': ['hanem xaxa', 'hanem hamp ara', 'hanem lva']
+    acceptableAnswers = ['yes', 'ye', 'y', 'ha', 'ayo', 'da']
+    notAcceptableAnswers = ['no', 'net', 'voch', 'nine']
+    answers = {
+        **dict(zip(acceptableAnswers, [True] * len(acceptableAnswers))),
+        **dict(zip(notAcceptableAnswers, [False] * len(notAcceptableAnswers)))
     }
 
-    joke = data.get(answer)
-    if joke:
-        if (answer == 'ha'):
-            print(random.choice(joke))
-        else:
-            print(joke)
+    if answer not in answers:
+        raise KeyError(f'Please write answer to equivalent {acceptableAnswers} or {notAcceptableAnswers} .')
+    return answers[answer]
 
 
 def guess_user_number():
     data = get_numbers_list()
     low = 0
     high = len(data) - 1
-
+    print(low + high, 'high')
     while low <= high:
         mid = (low + high) // 2
         current = data[mid]
 
         if is_user_agree(get_user_answer(f'Is {data[mid]} your number? ')):
-            return 'ok'
+            print('You win.')
+            if is_user_agree(get_user_answer(f'Do you want to play again ? ')):
+                guess_user_number()
+                return 'By'
+            return 'win'
 
         if is_user_agree(get_user_answer(f'Is your number bigger than {current} ? ')):
             low = mid + 1
         else:
             high = mid - 1
+    print('Do not lie.')
+
+    if is_user_agree(get_user_answer(f'Do you want to play again ? ')):
+        guess_user_number()
+        return 'By'
+    print('You lose.')
+    return 'lose'
 
 
 # guess_user_number()
@@ -70,40 +73,49 @@ def guess_user_number():
 
 # Task 5
 
-def guess_computer_number(data_length=100):
+def guess_computer_number():
     numbers = get_numbers_list()
     target = random.choice(numbers)
-
     low = 0
     high = len(numbers) - 1
 
-    while low < high:
-        optimal_mid = (low + high) // 2
-        user_guess = get_user_answer(f'Tiv asa ara!! cankalia {numbers[optimal_mid]} ', 'num')
-
+    while low <= high:
+        user_guess = None
         try:
-            mid = numbers.index(int(user_guess))
-            if numbers[mid] != numbers[optimal_mid]:
-                mid = numbers[optimal_mid]
-                print(f'Es angam ognum em!! {numbers[mid]} es petqa aseyr.')
+            user_guess = get_user_answer(f'Guess the my kept number. Between 1-100. ', 'num')
+        except ValueError as e:
+            print('Please type integer.')
 
-        except ValueError:
-            print('Jur es canum.')
+        if user_guess < numbers[0] or user_guess > numbers[-1]:
+            print('Select number between 1-100.')
+            continue
 
-        print(numbers[mid], target)
+        mid = (low + high) // 2
+        if user_guess != numbers[mid]:
+            print(f'It would have been good to say {numbers[mid]} .')
+
         if numbers[mid] == target:
-            return 'maladec'
+            print('You win')
+            if is_user_agree(get_user_answer(f'Do you want to play again ? ')):
+                guess_computer_number()
+                return 'By'
+            return 'win'
 
         if target > numbers[mid]:
+            print('My number is higher.')
             low = mid + 1
 
         if target < numbers[mid]:
+            print('My number is lesser.')
             high = mid - 1
 
-
+    print('You lose!')
+    if is_user_agree(get_user_answer(f'Do you want to play again ? ')):
+        guess_computer_number()
+        return 'By'
+    return 'lose'
 
 print(guess_computer_number())
-
 
 # Research
 # 1. Decorator, Կատակ ենք անում :)
