@@ -1,0 +1,11 @@
+1.  Ինչքան է Bubble Sort-ի Complexity-ն:
+
+2.	Տրված [4, 2, 6, 7, 7] list-ը քանի փոխելու գործողությամբ կսորտավորի Bubble Sort-ը:
+
+3.	Գրել Bubble Sort-ի pseudocode-ը:
+
+4.	Գրել function որը կախված ընդունած parameter-երից Bubble Sort-ի միջոցով
+
+    կսորտավորի list-ը աճման կամ նվազման կարգով:
+Research
+1.	Ինչ algorithm է օգտագործում python-ի list-ի sort() method-ը:
