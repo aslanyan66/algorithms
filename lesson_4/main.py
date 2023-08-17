@@ -28,7 +28,7 @@
 def bubble_sort(numbers, isDecreaseOrder=False):
     index_helper = -1 if isDecreaseOrder else 1
     for i in range(int(isDecreaseOrder), len(numbers)):
-        for j in range(int(isDecreaseOrder), len(numbers) - 1 - i):
+        for j in range(int(isDecreaseOrder), len(numbers) - index_helper - i):
             current = numbers[j]
 
             if current < numbers[j + index_helper]:
@@ -41,7 +41,7 @@ def bubble_sort(numbers, isDecreaseOrder=False):
     return numbers
 
 
-print(bubble_sort([10, 23, 2, 3, 4, 5, 3, 1, 3, 13, 41, 5, 35, 65, 37, 537, 385, 3, 35], False))
+print(bubble_sort([10, 23, 2, 3, 4, 5, 3, 1, 3, 13, 41, 5, 35, 65, 37, 537, 385, 3, 35], True))
 
 # Research
 # 1.	Ինչ algorithm է օգտագործում python-ի list-ի sort() method-ը:
